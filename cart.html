@@ -24,9 +24,8 @@
       <div class="container">
         <div class="mt-4">
           <!-- 產品Modal -->
-
+          <product-modal></product-modal>
           <!-- 產品Modal -->
-
           <table class="table align-middle">
             <thead>
               <tr>
@@ -37,21 +36,27 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="product in products" :key="product.id">
                 <td style="width: 200px">
+                  <!-- 在 div 插入背景圖片（沒有重複使用所以直接寫在 html）-->
                   <div
                     style="
                       height: 100px;
                       background-size: cover;
                       background-position: center;
                     "
+                    :style="{backgroundImage: `url(${product.imageUrl})`}"
                   ></div>
                 </td>
-                <td>{{ }}</td>
+                <td>{{ product.title }}</td>
                 <td>
-                  <div class="h5">{{ }} 元</div>
-                  <del class="h6">原價 {{ }} 元</del>
-                  <div class="h5">現在只要 {{ }} 元</div>
+                  <div class="h5" v-if="product.price === product.origin_price">
+                    {{ product.price }} 元
+                  </div>
+                  <div v-else>
+                    <del class="h6">原價 {{ product.origin_price }} 元</del>
+                    <div class="h5">現在只要 {{ product.price }} 元</div>
+                  </div>
                 </td>
                 <td>
                   <div class="btn-group btn-group-sm">
@@ -83,7 +88,7 @@
                 <th>單價</th>
               </tr>
             </thead>
-            <tbody>
+            <!-- <tbody>
               <template v-if="cart.carts">
                 <tr>
                   <td>
@@ -112,7 +117,7 @@
                   </td>
                 </tr>
               </template>
-            </tbody>
+            </tbody> -->
             <tfoot>
               <tr>
                 <td colspan="3" class="text-end">總計</td>
@@ -125,7 +130,7 @@
             </tfoot>
           </table>
         </div>
-        <div class="my-5 row justify-content-center">
+        <!-- <div class="my-5 row justify-content-center">
           <v-form ref="form" class="col-md-6" v-slot="{ errors }">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
@@ -206,12 +211,13 @@
               <button type="submit" class="btn btn-danger">送出訂單</button>
             </div>
           </v-form>
-        </div>
+        </div> -->
       </div>
     </div>
+    <!-- modal 版型 -->
     <script type="text/x-template" id="userProductModal">
       <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
-           aria-labelledby="exampleModalLabel" aria-hidden="true" ref="modal">
+            aria-labelledby="exampleModalLabel" aria-hidden="true" ref="modal">
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content border-0">
             <div class="modal-header bg-dark text-white">
@@ -224,7 +230,7 @@
             <div class="modal-body">
               <div class="row">
                 <div class="col-sm-6">
-                  <img class="img-fluid" :src="..." alt="">
+                  <img class="img-fluid" :src="" alt="">
             </div>
                 <div class="col-sm-6">
                   <span class="badge bg-primary rounded-pill">{{  }}</span>
@@ -236,7 +242,7 @@
                   <div>
                     <div class="input-group">
                       <input type="number" class="form-control"
-                             min="1">
+                              min="1">
                       <button type="button" class="btn btn-primary">加入購物車</button>
             </div>
             </div>
@@ -268,6 +274,7 @@
     <script src="https://unpkg.com/vee-validate@next"></script>
     <script src="https://unpkg.com/@vee-validate/i18n@4.1.0"></script>
     <script src="https://unpkg.com/@vee-validate/rules"></script>
-    <script src="./javascript/app2.js" type="module"></script>
+    <!-- <script src="./javascript/app2.js" type="module"></script> -->
+    <script src="./cart.js" type="module"></script>
   </body>
 </html>
