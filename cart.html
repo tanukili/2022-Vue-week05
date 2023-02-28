@@ -24,7 +24,7 @@
       <div class="container">
         <div class="mt-4">
           <!-- 產品Modal -->
-          <product-modal :product="product" ref="productModal"></product-modal>
+          <product-modal :product="product" ref="productModal" :add-to-cart="addToCart"></product-modal>
           <!-- 產品Modal -->
           <table class="table align-middle">
             <thead>
@@ -66,7 +66,8 @@
                       <i class="fas fa-spinner fa-pulse"></i>
                       查看更多
                     </button>
-                    <button type="button" class="btn btn-outline-danger">
+                    <button type="button" class="btn btn-outline-danger"
+                      @click="addToCart(product.id)">
                       <i class="fas fa-spinner fa-pulse"></i>
                       加到購物車
                     </button>
@@ -246,9 +247,11 @@
                   </div>
                   <div>
                     <div class="input-group">
-                      <input type="number" class="form-control"
-                        min="1">
-                      <button type="button" class="btn btn-primary">加入購物車</button>
+                      <!-- 不使用 input 而是 select：避免用戶輸入非數字 -->
+                      <select name="quantity" id="" class="form-select" v-model="qty">
+                        <option :value="i" v-for="i in 10" :key="`${i}0123`">{{ i }}</option>
+                      </select>
+                      <button type="button" class="btn btn-primary" @click="addToCart(product.id, qty)">加入購物車</button>
                     </div>
                   </div>
                 </div>

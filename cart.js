@@ -34,6 +34,21 @@ const app = createApp({
 					alert(err.data.message);
 				})
     },
+		addToCart(product_id, qty = 1){ // 參數預設值： qty 預設為 1
+			const data = {
+				product_id,
+				qty,
+			};
+			axios.post(`${apiUrl}/api/${apiPath}/cart`, { data })
+				.then((res) => {
+					console.log(res.data);
+					alert(res.data.message);
+					this.$refs.productModal.closeModal(); // 新增關閉 modal 方法
+				})
+				.catch((err) => {
+					alert(err.data.message);
+				})
+		},
   },
   mounted() {
     this.getProducts();
@@ -53,12 +68,12 @@ const productModal = {
 				};
 			},
 		},
+		addToCart: {},
 	},
   data() {
     return {
       modal: {},
-      // 暫存產品資料
-      tempProduct: {},
+			qty: 1, // 預設為 1
     };
   },
   template: "#userProductModal",
@@ -66,6 +81,9 @@ const productModal = {
     openModal() {
 			this.modal.show();
     },
+		closeModal() {
+			this.modal.hide();
+		}
   },
   mounted() {
     // modal 初始化（用 id 取得或用 ref 取得都可以）
