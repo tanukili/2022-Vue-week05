@@ -8,7 +8,7 @@ const app = createApp({
     return {
       products: [],
 			product: {},
-      productId: "",
+			cart: {},
     };
   },
   methods: {
@@ -24,7 +24,6 @@ const app = createApp({
         });
     },
     getProduct(id) {
-			this.productId = id;
 			axios.get(`${apiUrl}/api/${apiPath}/product/${id}`)
 				.then((res) => {
 					this.product = res.data.product;
@@ -44,14 +43,26 @@ const app = createApp({
 					console.log(res.data);
 					alert(res.data.message);
 					this.$refs.productModal.closeModal(); // 新增關閉 modal 方法
+					this.getCarts();
 				})
 				.catch((err) => {
 					alert(err.data.message);
 				})
 		},
+		getCarts() {
+			axios.get(`${apiUrl}/api/${apiPath}/cart`)
+				.then((res) => {
+					console.log('購物車:', res.data.data);
+					this.cart = res.data.data; // 注意資料結構
+				})
+				.catch((err) => {
+					alert(err.data.message);
+				})
+    },
   },
   mounted() {
     this.getProducts();
+		this.getCarts();
   },
 });
 // 產品 modal 元件
