@@ -62,13 +62,17 @@
                   <!-- ref 取得內層資料 -->
                   <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-outline-secondary"
-                      @click="getProduct(product.id)">
-                      <i class="fas fa-spinner fa-pulse"></i>
+                      @click="getProduct(product.id)"
+                      :disabled="product.id === loadingItem">
+                      <i class="fas fa-spinner fa-pulse"
+                        v-if="product.id === loadingItem"></i>
                       查看更多
                     </button>
                     <button type="button" class="btn btn-outline-danger"
-                      @click="addToCart(product.id)">
-                      <i class="fas fa-spinner fa-pulse"></i>
+                      @click="addToCart(product.id)"
+                      :disabled="product.id === loadingItem">
+                      <i class="fas fa-spinner fa-pulse"
+                        v-if="product.id === loadingItem"></i>
                       加到購物車
                     </button>
                   </div>
@@ -92,11 +96,11 @@
               </tr>
             </thead>
             <tbody>
-              <template v-if="cart.carts === true">
+              <template v-if="cart.carts">
                 <tr v-for="cartItem in cart.carts" :key="cartItem.id">
                   <td>
-                    <button type="button" class="btn btn-outline-danger btn-sm" @click="delCartItem(cartItem.id)">
-                      <i class="fas fa-spinner fa-pulse"></i>
+                    <button type="button" class="btn btn-outline-danger btn-sm" @click="delCartItem(cartItem.id)" :disabled="cartItem.id === loadingItem">
+                      <i class="fas fa-spinner fa-pulse" v-if="cartItem.id === loadingItem"></i>
                       x
                     </button>
                   </td>
@@ -106,7 +110,7 @@
                   </td>
                   <td>
                     <div class="input-group input-group-sm">
-                      <select name="quantity" id="" class="form-select" v-model="cartItem.qty" @change="editCartItem(cartItem)">
+                      <select name="quantity" id="" class="form-select" v-model="cartItem.qty" @change="editCartItem(cartItem)" :disabled="cartItem.id === loadingItem">
                         <option :value="i" v-for="i in 10" :key="`${i}0123`">{{ i }}</option>
                       </select>
                       <span class="input-group-text" id="basic-addon2">
@@ -121,9 +125,9 @@
                   </td>
                 </tr>
               </template>
-              <tr v-else>
+              <!-- <tr v-else>
                 <td colspan="4" class="text-center py-5 text-secondary">您的購物車未有商品</td>
-              </tr>
+              </tr> -->
             </tbody>
             <tfoot>
               <tr>
