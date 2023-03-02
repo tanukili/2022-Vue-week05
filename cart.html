@@ -93,7 +93,7 @@
             </thead>
             <tbody>
               <template v-if="cart.carts">
-                <tr v-for="product in cart.carts" :key="product.id">
+                <tr v-for="cartItem in cart.carts" :key="cartItem.id">
                   <td>
                     <button type="button" class="btn btn-outline-danger btn-sm">
                       <i class="fas fa-spinner fa-pulse"></i>
@@ -101,23 +101,23 @@
                     </button>
                   </td>
                   <td>
-                    {{ product.product.title }}
+                    {{ cartItem.product.title }}
                     <div class="text-success">已套用優惠券</div>
                   </td>
                   <td>
                     <div class="input-group input-group-sm">
-                      <select name="quantity" id="" class="form-select" v-model="product.qty">
+                      <select name="quantity" id="" class="form-select" v-model="cartItem.qty">
                         <option :value="i" v-for="i in 10" :key="`${i}0123`">{{ i }}</option>
                       </select>
                       <span class="input-group-text" id="basic-addon2">
-                        {{ product.product.unit }}
+                        {{ cartItem.product.unit }}
                       </span>
                       </div>
                     </div>
                   </td>
                   <td class="text-end">
                     <small class="text-success">折扣價：</small>
-                    {{ product.final_total }}
+                    {{ cartItem.final_total }}
                   </td>
                 </tr>
               </template>
