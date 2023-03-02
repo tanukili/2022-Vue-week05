@@ -13,14 +13,13 @@ const app = createApp({
   },
   methods: {
     getProducts() {
-      axios
-        .get(`${apiUrl}/api/${apiPath}/products`)
+      axios.get(`${apiUrl}/api/${apiPath}/products`)
         .then((res) => {
           console.log("產品列表:", res.data.products);
           this.products = res.data.products;
         })
         .catch((err) => {
-          alert(err.data.message);
+					alert(err.data.message);
         });
     },
     getProduct(id) {
@@ -52,13 +51,29 @@ const app = createApp({
 		getCarts() {
 			axios.get(`${apiUrl}/api/${apiPath}/cart`)
 				.then((res) => {
-					console.log('購物車:', res.data.data);
+					console.log('購物車:', res.data);
 					this.cart = res.data.data; // 注意資料結構
 				})
 				.catch((err) => {
 					alert(err.data.message);
 				})
     },
+		editCartItem(cartItem) { // 購物車 id ； 產品 id
+			const data = {
+				product_id: cartItem.product.id,
+				qty: cartItem.qty,
+			};
+			console.log(data, cartItem);
+			axios.put(`${apiUrl}/api/${apiPath}/cart/${cartItem.id}`, { data })
+				.then((res) => {
+					alert(res.data.message)
+					this.cart = res.data.data;
+					this.getCarts();
+				})
+				.catch((err) => {
+					alert(err.data.message);
+				})
+		},
   },
   mounted() {
     this.getProducts();

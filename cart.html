@@ -106,7 +106,7 @@
                   </td>
                   <td>
                     <div class="input-group input-group-sm">
-                      <select name="quantity" id="" class="form-select" v-model="cartItem.qty">
+                      <select name="quantity" id="" class="form-select" v-model="cartItem.qty" @change="editCartItem(cartItem)">
                         <option :value="i" v-for="i in 10" :key="`${i}0123`">{{ i }}</option>
                       </select>
                       <span class="input-group-text" id="basic-addon2">
