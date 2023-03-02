@@ -78,7 +78,7 @@
           </table>
           <!-- 購物車列表 -->
           <div class="text-end">
-            <button class="btn btn-outline-danger" type="button">
+            <button class="btn btn-outline-danger" type="button" @click="delCarts">
               清空購物車
             </button>
           </div>
@@ -92,7 +92,7 @@
               </tr>
             </thead>
             <tbody>
-              <template v-if="cart.carts">
+              <template v-if="cart.carts === true">
                 <tr v-for="cartItem in cart.carts" :key="cartItem.id">
                   <td>
                     <button type="button" class="btn btn-outline-danger btn-sm" @click="delCartItem(cartItem.id)">
@@ -121,6 +121,9 @@
                   </td>
                 </tr>
               </template>
+              <tr v-else>
+                <td colspan="4" class="text-center py-5 text-secondary">您的購物車未有商品</td>
+              </tr>
             </tbody>
             <tfoot>
               <tr>
