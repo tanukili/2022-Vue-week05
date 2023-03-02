@@ -95,7 +95,7 @@
               <template v-if="cart.carts">
                 <tr v-for="cartItem in cart.carts" :key="cartItem.id">
                   <td>
-                    <button type="button" class="btn btn-outline-danger btn-sm">
+                    <button type="button" class="btn btn-outline-danger btn-sm" @click="delCartItem(cartItem.id)">
                       <i class="fas fa-spinner fa-pulse"></i>
                       x
                     </button>

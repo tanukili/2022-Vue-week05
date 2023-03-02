@@ -58,16 +58,24 @@ const app = createApp({
 					alert(err.data.message);
 				})
     },
-		editCartItem(cartItem) { // 購物車 id ； 產品 id
+		editCartItem(cartItem) { // 需要購物車 id 以及 產品 id
 			const data = {
 				product_id: cartItem.product.id,
 				qty: cartItem.qty,
 			};
-			console.log(data, cartItem);
 			axios.put(`${apiUrl}/api/${apiPath}/cart/${cartItem.id}`, { data })
 				.then((res) => {
 					alert(res.data.message)
-					this.cart = res.data.data;
+					this.getCarts();
+				})
+				.catch((err) => {
+					alert(err.data.message);
+				})
+		},
+		delCartItem(productId) { // 需要購物車 id
+			axios.delete(`${apiUrl}/api/${apiPath}/cart/${productId}`)
+				.then((res) => {
+					alert(res.data.message)
 					this.getCarts();
 				})
 				.catch((err) => {
