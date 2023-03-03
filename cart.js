@@ -1,15 +1,39 @@
-import { createApp } from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js";
+// import { createApp } from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js";
 
 const apiUrl = "https://vue3-course-api.hexschool.io/v2";
 const apiPath = "vuejslive2022";
 
-const app = createApp({
+// 定義規則B
+Object.keys(VeeValidateRules).forEach(rule => {
+  if (rule !== 'default') {
+    VeeValidate.defineRule(rule, VeeValidateRules[rule]);
+  }
+});
+// 載入多國語系
+VeeValidateI18n.loadLocaleFromURL('./zh_TW.json');
+// Activate the locale
+VeeValidate.configure({
+  generateMessage: VeeValidateI18n.localize('zh_TW'),
+  validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
+});
+
+const app = 	Vue.createApp({
   data() {
     return {
       products: [],
 			product: {},
 			cart: {},
+			haveProduct: 0,
 			loadingItem: '', // 儲存 id (避免重複觸發)
+			form: { // 儲存訂單資料
+				user: {
+					name: '',
+					email: '',
+					tel: '',
+					address: '',
+				},
+				message: '',
+			},
     };
   },
   methods: {
@@ -42,7 +66,6 @@ const app = createApp({
 			this.loadingItem = product_id;
 			axios.post(`${apiUrl}/api/${apiPath}/cart`, { data })
 				.then((res) => {
-					console.log(res.data);
 					alert(res.data.message);
 					this.$refs.productModal.closeModal(); // 新增關閉 modal 方法
 					this.getCarts();
@@ -56,7 +79,7 @@ const app = createApp({
 			axios.get(`${apiUrl}/api/${apiPath}/cart`)
 				.then((res) => {
 					this.cart = res.data.data; // 注意資料結構
-					console.log(this.cart.carts.length === 0);
+					this.haveProduct = this.cart.carts.length;
 				})
 				.catch((err) => {
 					alert(err.data.message);
@@ -100,6 +123,18 @@ const app = createApp({
 					alert(err.data.message);
 				})
 		},
+		createOrder() {
+			const data = this.form;
+			axios.post(`${apiUrl}/api/${apiPath}/order`, { data })
+				.then((res) => {
+					alert(res.data.message);
+					this.$refs.form.resetForm();
+					this.form.message = '';
+					this.getCarts();
+				})
+				.catch((err) => {
+					alert(err.data.message);
+				})		},
   },
   mounted() {
     this.getProducts();
@@ -144,4 +179,9 @@ const productModal = {
 };
 
 app.component("productModal", productModal);
+// 註冊元件
+app.component('VForm', VeeValidate.Form);
+app.component('VField', VeeValidate.Field);
+app.component('ErrorMessage', VeeValidate.ErrorMessage);
+
 app.mount("#app");
