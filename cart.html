@@ -17,6 +17,7 @@
       integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw=="
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@6.0.3/dist/css/index.min.css">
   </head>
 
   <body>
@@ -230,6 +231,8 @@
             </div>
           </v-form>
         </div>
+        <!-- VueLoading -->
+        <loading v-model:active="isLoading"/>
       </div>
     </div>
     <!-- modal 版型 -->
@@ -297,6 +300,7 @@
     <script src="https://unpkg.com/vee-validate@next"></script>
     <script src="https://unpkg.com/@vee-validate/i18n@4.1.0"></script>
     <script src="https://unpkg.com/@vee-validate/rules"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@6.0.3/dist/index.min.js"></script>
     <!-- <script src="./javascript/app2.js" type="module"></script> -->
     <script src="./cart.js" type="module"></script>
   </body>

@@ -34,6 +34,7 @@ const app = 	Vue.createApp({
 				},
 				message: '',
 			},
+			isLoading: false,
     };
   },
   methods: {
@@ -137,6 +138,10 @@ const app = 	Vue.createApp({
 				})		},
   },
   mounted() {
+		this.isLoading = true;
+		setTimeout(() => {
+			this.isLoading = false;
+		}, 800);
     this.getProducts();
 		this.getCarts();
   },
@@ -183,5 +188,9 @@ app.component("productModal", productModal);
 app.component('VForm', VeeValidate.Form);
 app.component('VField', VeeValidate.Field);
 app.component('ErrorMessage', VeeValidate.ErrorMessage);
+// VueLoading
+app.component('loading', VueLoading.Component)
 
 app.mount("#app");
+
+console.log(VueLoading);
