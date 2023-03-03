@@ -141,7 +141,7 @@ const app = 	Vue.createApp({
 		this.isLoading = true;
 		setTimeout(() => {
 			this.isLoading = false;
-		}, 800);
+		}, 1000);
     this.getProducts();
 		this.getCarts();
   },
